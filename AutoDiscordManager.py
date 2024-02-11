@@ -104,8 +104,8 @@ def main():
     """
     while True:
         checks = 0
+        sleep(CHECK_INTERVAL)
         while checks < MAX_CHECKS:
-            sleep(CHECK_INTERVAL)
             if not check_device_status(DEVICE_IP):
                 # Device not found, increment the number of checks
                 checks += 1
