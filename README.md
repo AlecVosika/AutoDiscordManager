@@ -8,9 +8,9 @@ This Python application continuously monitors the status of a specified device o
 ## Installation
 1. Clone or download the repository containing the source code.
 2. Install the required Python modules using pip:
-    ```python
+```python
     pip install psutil scapy
-    ```
+```
 ## Configuration
 Before running the application, make sure to configure the following parameters in the script:
 - `DEVICE_IP`: Replace it with the IP address of the device you want to monitor.
