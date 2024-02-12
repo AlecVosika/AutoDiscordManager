@@ -4,9 +4,16 @@ import psutil
 from scapy.all import ARP, Ether, srp
 import subprocess
 import configparser
+import os
+
+# Get the directory path of the current script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the absolute path to config.ini
+config_path = os.path.join(script_dir, 'config.ini')
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(config_path)
 
 # Constants
 ARP_TIMEOUT = 3
