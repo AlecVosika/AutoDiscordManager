@@ -12,9 +12,9 @@ This Python application continuously monitors the status of a specified device o
     pip install psutil scapy
 ```
 ## Configuration
-Before running the application, make sure to configure the following parameters in the script:
-- `DEVICE_IP`: Replace it with the IP address of the device you want to monitor.
-- `DISCORD_FILE_PATH`: Replace it with the file path of Discord on your system.
+Before running the application, make sure to configure the following parameters in the config.ini:
+- `device_ip`: Replace it with the IP address of the device you want to monitor.
+- `discord_file_path`: Replace it with the file path of Discord on your system.
 ## Usage
 ### Option 1: Run From CMD
 Run the script `device_monitor_discord.py` using Python:
@@ -24,7 +24,7 @@ python device_monitor_discord.py
 ### Option 2: Create an Executable 
 Run the following to create an executable
 ```Python
-python -m PyInstaller AutoDiscordManager.py --noconsole
+python -m PyInstaller --onefile --add-data "config.ini;." --noconsole AutoDiscordManager.py
 ```
 You will find a file called AutoDiscordManager.exe in the newly created dist folder
 ## Description
