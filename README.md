@@ -16,11 +16,10 @@ Before running the application, make sure to configure the following parameters 
 - `device_ip`: Replace it with the IP address of the device you want to monitor.
 - `discord_file_path`: Replace it with the file path of Discord on your system.
 ## Usage
-### Option 1: Run From CMD
-Run the script `device_monitor_discord.py` using Python:
-```python
-python device_monitor_discord.py
-```
+### Option 1: Download the current release version
+Download the current release version [Here](https://github.com/AlecVosika/AutoDiscordManager/releases/tag/V1.0.0).
+Once downloaded, open the *_internal* folder and then edit the *config.ini* file with your own parameters.
+
 ### Option 2: Create an Executable 
 Run the following to create an executable
 ```Python
