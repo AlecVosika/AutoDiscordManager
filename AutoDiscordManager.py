@@ -1,10 +1,11 @@
 import logging
-from time import sleep
+import time 
 import psutil
 from scapy.all import ARP, Ether, srp
 import subprocess
 import configparser
 import os
+import sched
 
 # Get the directory path of the current script
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -109,36 +110,58 @@ class DiscordController:
         """
         subprocess.Popen(file_path)
 
-def main():
+def monitor_and_control(device_monitor, discord_controller, scheduler, failed_checks=0):
     """
-    Main function that monitors the device status and controls Discord.
+    Monitors the device status using the device_monitor, controls Discord using the discord_controller,
+    and schedules the next check using the scheduler.
 
-    It creates instances of DeviceMonitor and DiscordController classes.
-    It continuously checks the device status and performs actions based on the status.
-    If the device status fails for a certain number of checks, it closes Discord.
-    If Discord is not open, it opens Discord.
-
-    Parameters:
-    None
+    Args:
+        device_monitor: An object that provides methods to check the device status.
+        discord_controller: An object that provides methods to control Discord.
+        scheduler: An object that provides scheduling functionality.
+        failed_checks: The number of consecutive failed checks.
 
     Returns:
-    None
+        None
+    """
+    # Check the device status
+    if not device_monitor.check_device_status():
+        failed_checks += 1
+        # If consecutive failed checks exceed the maximum allowed, close Discord
+        if failed_checks >= MAX_FAILED_CHECKS:
+            discord_controller.close_discord()
+            failed_checks = 0
+        # Schedule the next check
+        scheduler.enter(CHECK_INTERVAL, 1, monitor_and_control, 
+                        (device_monitor, discord_controller, scheduler, failed_checks))
+        return
+
+    failed_checks = 0
+
+    # If Discord is not open, open Discord
+    if not discord_controller.is_discord_open():
+        discord_controller.open_discord(DISCORD_FILE_PATH)
+
+    # Schedule the next check
+    scheduler.enter(CHECK_INTERVAL, 1, monitor_and_control, 
+                    (device_monitor, discord_controller, scheduler, failed_checks))
+
+
+
+def main():
+    """
+    Entry point of the program.
+    Initializes the device monitor, discord controller, and scheduler.
+    Schedules the initial monitoring and control task.
     """
     device_monitor = DeviceMonitor(DEVICE_IP, DISCORD_FILE_PATH)
     discord_controller = DiscordController()
+    scheduler = sched.scheduler(time.time, time.sleep)
 
-    while True:
-        checks = 0
-        sleep(CHECK_INTERVAL)
-        while checks < MAX_FAILED_CHECKS:
-            if not device_monitor.check_device_status():
-                checks += 1
-                if checks == MAX_FAILED_CHECKS:
-                    discord_controller.close_discord()
-            else:
-                checks = 0
-                if not discord_controller.is_discord_open():
-                    discord_controller.open_discord(DISCORD_FILE_PATH)
+    # Schedule the initial monitoring and control task
+    scheduler.enter(0, 1, monitor_and_control, 
+                    (device_monitor, discord_controller, scheduler))
+    scheduler.run()
 
 if __name__ == "__main__":
     main()
