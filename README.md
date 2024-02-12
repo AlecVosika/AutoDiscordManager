@@ -17,7 +17,7 @@ Before running the application, make sure to configure the following parameters 
 - `discord_file_path`: Replace it with the file path of Discord on your system.
 ## Usage
 ### Option 1: Download the current release version
-Download the current release version [Here](https://github.com/AlecVosika/AutoDiscordManager/releases/tag/V1.0.0).
+Download the current release version [Here](https://github.com/AlecVosika/AutoDiscordManager/releases/tag/V1.1.0).
 Once downloaded, open the *_internal* folder and then edit the *config.ini* file with your own parameters.
 ### Option 2: Create your own Executable 
 1. Clone the repo
