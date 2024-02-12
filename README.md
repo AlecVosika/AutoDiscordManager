@@ -19,9 +19,10 @@ Before running the application, make sure to configure the following parameters 
 ### Option 1: Download the current release version
 Download the current release version [Here](https://github.com/AlecVosika/AutoDiscordManager/releases/tag/V1.0.0).
 Once downloaded, open the *_internal* folder and then edit the *config.ini* file with your own parameters.
-
-### Option 2: Create an Executable 
-Run the following to create an executable
+### Option 2: Create your own Executable 
+1. Clone the repo
+2. Edit the config.ini file with your own *device_ip* and *discord_file_path*
+3. Run the following in the console
 ```Python
 python -m PyInstaller --onefile --add-data "config.ini;." --noconsole AutoDiscordManager.py
 ```
